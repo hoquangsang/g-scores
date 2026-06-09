@@ -5,6 +5,7 @@ export function basePreset() {
         '**/node_modules/**',
         '**/dist/**',
         '**/build/**',
+        '**/.next/**',
         '**/.turbo/**',
         '**/coverage/**',
         '**/.tmp/**',
