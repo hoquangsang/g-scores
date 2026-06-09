@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+.turbo
+coverage
+test-reports
+playwright-report
+.eslintcache
+/.tmp
+pnpm-lock.yaml

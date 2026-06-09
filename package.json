@@ -1,0 +1,32 @@
+{
+  "name": "@repo/root",
+  "version": "0.0.0",
+  "private": true,
+  "description": "G-Scores fullstack assignment",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "eslint . --cache --cache-location .eslintcache",
+    "lint:fix": "eslint . --fix --cache --cache-location .eslintcache",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:unit": "turbo run test:unit",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "clean": "turbo run clean",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^25.6.0",
+    "eslint": "^9.39.4",
+    "lefthook": "^1.13.6",
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6",
+    "typescript": "^6.0.2"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
