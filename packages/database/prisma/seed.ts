@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 import { config as loadEnv } from 'dotenv';
-import { createDatabaseClient, resolveDatabaseUrl, type DatabaseTransaction } from '../src';
+import { createDatabaseClient, resolveDatabaseUrl } from '../src';
 
 loadEnv({ path: resolve(process.cwd(), '../../apps/api/.env') });
 
@@ -40,9 +40,9 @@ const examGroups = [
   { code: 'D', name: 'Group D', subjects: ['toan', 'ngu_van', 'ngoai_ngu'] },
 ] as const;
 
-async function seedCatalogs(tx: DatabaseTransaction): Promise<void> {
+async function seedCatalogs(): Promise<void> {
   for (const subject of subjects) {
-    await tx.subject.upsert({
+    await db.subject.upsert({
       where: { code: subject.code },
       update: { name: subject.name },
       create: subject,
@@ -50,7 +50,7 @@ async function seedCatalogs(tx: DatabaseTransaction): Promise<void> {
   }
 
   for (const foreignLanguage of foreignLanguages) {
-    await tx.foreignLanguage.upsert({
+    await db.foreignLanguage.upsert({
       where: { code: foreignLanguage.code },
       update: { name: foreignLanguage.name },
       create: foreignLanguage,
@@ -58,7 +58,7 @@ async function seedCatalogs(tx: DatabaseTransaction): Promise<void> {
   }
 
   for (const examGroupData of examGroups) {
-    const examGroup = await tx.examGroup.upsert({
+    await db.examGroup.upsert({
       where: { code: examGroupData.code },
       update: { name: examGroupData.name },
       create: {
@@ -66,30 +66,53 @@ async function seedCatalogs(tx: DatabaseTransaction): Promise<void> {
         name: examGroupData.name,
       },
     });
-
-    await tx.examGroupSubject.deleteMany({
-      where: { examGroupId: examGroup.id },
-    });
-
-    for (const subjectCode of examGroupData.subjects) {
-      const subject = await tx.subject.findUniqueOrThrow({
-        where: { code: subjectCode },
-      });
-
-      await tx.examGroupSubject.create({
-        data: {
-          examGroupId: examGroup.id,
-          subjectId: subject.id,
-        },
-      });
-    }
   }
+
+  const [seededSubjects, seededExamGroups] = await Promise.all([
+    db.subject.findMany({
+      where: { code: { in: subjects.map((subject) => subject.code) } },
+      select: { id: true, code: true },
+    }),
+    db.examGroup.findMany({
+      where: { code: { in: examGroups.map((examGroup) => examGroup.code) } },
+      select: { id: true, code: true },
+    }),
+  ]);
+
+  const subjectIdsByCode = new Map(seededSubjects.map((subject) => [subject.code, subject.id]));
+  const examGroupIdsByCode = new Map(
+    seededExamGroups.map((examGroup) => [examGroup.code, examGroup.id]),
+  );
+
+  await db.examGroupSubject.deleteMany({
+    where: {
+      examGroupId: { in: seededExamGroups.map((examGroup) => examGroup.id) },
+    },
+  });
+
+  await db.examGroupSubject.createMany({
+    data: examGroups.flatMap((examGroup) => {
+      const examGroupId = examGroupIdsByCode.get(examGroup.code);
+
+      if (!examGroupId) {
+        throw new Error(`Missing seeded exam group: ${examGroup.code}`);
+      }
+
+      return examGroup.subjects.map((subjectCode) => {
+        const subjectId = subjectIdsByCode.get(subjectCode);
+
+        if (!subjectId) {
+          throw new Error(`Missing seeded subject: ${subjectCode}`);
+        }
+
+        return { examGroupId, subjectId };
+      });
+    }),
+  });
 }
 
 async function main(): Promise<void> {
-  await db.$transaction(async (tx) => {
-    await seedCatalogs(tx);
-  });
+  await seedCatalogs();
 }
 
 main()
