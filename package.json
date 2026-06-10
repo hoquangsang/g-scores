@@ -13,6 +13,10 @@
     "test:unit": "turbo run test:unit",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "docker:build": "docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.local.yml build",
+    "docker:up": "docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.local.yml up -d",
+    "docker:down": "docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.local.yml down",
+    "docker:logs": "docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.local.yml logs -f",
     "clean": "turbo run clean",
     "prepare": "lefthook install"
   },

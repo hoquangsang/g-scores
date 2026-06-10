@@ -1,0 +1,38 @@
+name: g-scores
+
+include:
+  - ./compose.yml
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: apps/api/Dockerfile
+    environment:
+      NODE_ENV: development
+      PORT: ${API_PORT:-3000}
+      API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:3001}
+    env_file:
+      - path: ../../apps/api/.env
+        required: false
+    ports:
+      - '${API_PORT:-3000}:${API_PORT:-3000}'
+
+  web:
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000}
+    environment:
+      NODE_ENV: development
+      PORT: ${WEB_PORT:-3001}
+    env_file:
+      - path: ../../apps/web/.env
+        required: false
+    ports:
+      - '${WEB_PORT:-3001}:${WEB_PORT:-3001}'
+
+  postgres:
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
