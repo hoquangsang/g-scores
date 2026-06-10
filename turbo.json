@@ -28,10 +28,12 @@
     },
     "test:int": {
       "dependsOn": ["^build"],
+      "cache": false,
       "outputs": []
     },
     "test:e2e": {
       "dependsOn": ["^build"],
+      "cache": false,
       "outputs": []
     },
     "test:cov": {
