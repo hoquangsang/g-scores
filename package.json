@@ -30,7 +30,7 @@
     "db:test:reset": "dotenv -e .env.test -- pnpm --filter @repo/database db:reset",
     "db:test:seed": "dotenv -e .env.test -- pnpm --filter @repo/database db:seed",
     "data:import:scores": "pnpm --filter @repo/data-import import:scores",
-    "docker:test:up": "docker compose -f infrastructure/docker/compose.test.yml up -d",
+    "docker:test:up": "docker compose -f infrastructure/docker/compose.test.yml up -d --wait",
     "docker:test:down": "docker compose -f infrastructure/docker/compose.test.yml down",
     "docker:test:logs": "docker compose -f infrastructure/docker/compose.test.yml logs -f",
     "prepare": "lefthook install"

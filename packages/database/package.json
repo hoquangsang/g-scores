@@ -16,9 +16,9 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "test": "pnpm test:unit",
-    "test:unit": "vitest run \"test/**/*.spec.ts\" --passWithNoTests",
-    "test:int": "vitest run \"test/**/*.int-spec.ts\" --passWithNoTests",
-    "test:cov": "vitest run \"test/**/*.spec.ts\" --coverage --passWithNoTests"
+    "test:unit": "vitest run --exclude \"test/**/*.int.spec.ts\" --passWithNoTests",
+    "test:int": "vitest run --exclude \"test/**/*.unit.spec.ts\" --passWithNoTests",
+    "test:cov": "vitest run --exclude \"test/**/*.int.spec.ts\" --coverage --passWithNoTests"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
