@@ -24,12 +24,13 @@ Use the environment-specific database URLs and Render deploy hooks.
 
 ## Environment Vars
 
-Add this variable to each environment:
+Add these variables to each environment:
 
 ```text
 NODE_VERSION=22
+DATA_IMPORT_SCORE_CSV_URL=<public-csv-url>
 ```
 
 ## Protection
 
-For `production`, add required reviewers if production deploys should wait for manual approval after the release PR is merged into `main`.
+For `production`, add required reviewers if production deploys should wait for approval before workflow steps run.
