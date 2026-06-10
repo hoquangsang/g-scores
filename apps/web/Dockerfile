@@ -8,11 +8,10 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
-COPY apps/api/package.json apps/api/package.json
 COPY apps/web/package.json apps/web/package.json
 COPY tooling/typescript-config/package.json tooling/typescript-config/package.json
 COPY tooling/eslint-config/package.json tooling/eslint-config/package.json
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --filter @repo/web... --ignore-scripts
 
 FROM deps AS builder
 ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
@@ -23,6 +22,7 @@ RUN pnpm --filter @repo/web build
 FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
 ENV PORT=3001
 COPY --from=builder /app/apps/web/.next/standalone ./
 COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
