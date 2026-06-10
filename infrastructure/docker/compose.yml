@@ -1,0 +1,15 @@
+name: g-scores
+
+volumes:
+  postgres_data:
+    name: g-scores-postgres-data
+
+networks:
+  g-scores:
+    name: g-scores-net
+    driver: bridge
+
+include:
+  - ./infra/db.yml
+  - ./services/api.yml
+  - ./services/web.yml

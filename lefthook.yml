@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{ts,tsx,js,mjs,cjs}'
+      run: ./node_modules/.bin/eslint --fix --no-warn-ignored {staged_files}
+      stage_fixed: true
+    format:
+      glob: '*.{ts,tsx,js,mjs,cjs,json,md,yaml,yml,css}'
+      run: ./node_modules/.bin/prettier --write {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    conventional-commits:
+      run: ./node_modules/.bin/commitlint --edit {1}

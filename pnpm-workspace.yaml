@@ -1,0 +1,10 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'tooling/*'
+allowBuilds:
+  '@prisma/engines': true
+  esbuild: true
+  lefthook: true
+  prisma: true
+  sharp: true

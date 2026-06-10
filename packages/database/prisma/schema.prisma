@@ -1,0 +1,76 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ExamTrack {
+  NATURAL
+  SOCIAL
+  UNKNOWN
+}
+
+model Exam {
+  id        String   @id @default(uuid())
+  year      Int      @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidates Candidate[]
+}
+
+model Candidate {
+  id                 String    @id @default(uuid())
+  examId             String
+  registrationNumber String
+  examTrack          ExamTrack @default(UNKNOWN)
+  foreignLanguageId  String?
+
+  exam            Exam             @relation(fields: [examId], references: [id], onDelete: Cascade)
+  foreignLanguage ForeignLanguage? @relation(fields: [foreignLanguageId], references: [id])
+  scores          CandidateScore[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([examId, registrationNumber])
+  @@index([examId, examTrack])
+  @@index([registrationNumber])
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  scores CandidateScore[]
+}
+
+model CandidateScore {
+  candidateId String
+  subjectId   String
+  score       Decimal @db.Decimal(4, 2)
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  @@id([candidateId, subjectId])
+  @@index([subjectId, score])
+}
+
+model ForeignLanguage {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidates Candidate[]
+}

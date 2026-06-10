@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.next
+.turbo
+*.tsbuildinfo
+apps/web/next-env.d.ts
+coverage
+test-reports
+playwright-report
+.eslintcache
+/.tmp
+pnpm-lock.yaml
