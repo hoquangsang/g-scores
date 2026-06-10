@@ -5,25 +5,27 @@
   "description": "G-Scores NestJS API",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "dev": "tsx watch src/main.ts",
+    "build": "nest build && tsc-alias -p tsconfig.build.json",
+    "dev": "nest start --watch",
     "start": "node dist/main.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm test:unit",
-    "test:unit": "echo \"No unit tests yet\"",
-    "clean": "node -e \"const fs=require('node:fs'); for (const p of ['dist','.eslintcache']) fs.rmSync(p,{recursive:true,force:true});\""
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@repo/database": "workspace:*",
+    "dotenv": "^17.4.2",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^25.6.0",
-    "tsx": "^4.21.0",
+    "tsc-alias": "^1.8.16",
     "typescript": "^6.0.2"
   }
 }

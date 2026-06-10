@@ -14,15 +14,7 @@
       "outputs": []
     },
     "typecheck": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "test:unit": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["build", "^build"],
       "outputs": []
     },
     "format": {
@@ -31,9 +23,6 @@
     },
     "format:check": {
       "outputs": []
-    },
-    "clean": {
-      "cache": false
     }
   }
 }

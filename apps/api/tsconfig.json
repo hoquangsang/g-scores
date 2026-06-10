@@ -1,7 +1,12 @@
 {
   "extends": "@repo/typescript-config/node.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "outDir": "dist",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "rootDir": "src",
     "sourceMap": true,
     "types": ["node"]

@@ -6,12 +6,9 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --port 3001",
-    "start": "node -e \"const { spawnSync } = require('node:child_process'); const port = process.env.PORT || '3001'; const result = spawnSync('next', ['start', '--port', port], { stdio: 'inherit', shell: true }); process.exit(result.status ?? 1);\"",
+    "start": "next start --port 3001",
     "lint": "eslint . --cache --cache-location .eslintcache",
-    "typecheck": "next typegen && tsc --noEmit",
-    "test": "pnpm test:unit",
-    "test:unit": "echo \"No unit tests yet\"",
-    "clean": "node -e \"const fs=require('node:fs'); for (const p of ['.next','out','dist','.eslintcache']) fs.rmSync(p,{recursive:true,force:true});\""
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "next": "^16.0.0",
