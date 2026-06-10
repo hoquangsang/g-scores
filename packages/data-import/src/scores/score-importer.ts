@@ -21,16 +21,21 @@ export async function importScores({
 }: ImportScoresOptions): Promise<ScoreImportResult> {
   await assertScoreCatalogsExist(client);
   const stream = await openScoreSource(source);
+  let transactionStarted = false;
 
   try {
     await client.query('BEGIN');
+    transactionStarted = true;
     await clearImportedScores(client);
     await copyRawCandidateScores(client, stream);
     const result = await normalizeCandidateScores(client, { clearRawAfterImport });
     await client.query('COMMIT');
     return result;
   } catch (error) {
-    await client.query('ROLLBACK');
+    if (transactionStarted) {
+      await client.query('ROLLBACK');
+    }
+
     throw error;
   }
 }
