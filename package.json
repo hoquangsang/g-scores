@@ -23,6 +23,7 @@
     "db:reset": "pnpm --filter @repo/database db:reset",
     "db:seed": "pnpm --filter @repo/database db:seed",
     "db:studio": "pnpm --filter @repo/database db:studio",
+    "data:import:scores": "pnpm --filter @repo/data-import import:scores",
     "prepare": "lefthook install"
   },
   "devDependencies": {
