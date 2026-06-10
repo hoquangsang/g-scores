@@ -8,7 +8,12 @@
     "build": "nest build && tsc-alias -p tsconfig.build.json",
     "dev": "nest start --watch",
     "start": "node dist/main.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm test:unit",
+    "test:unit": "jest --config jest.config.mjs --testMatch \"**/test/**/*.spec.ts\" --passWithNoTests",
+    "test:int": "jest --config jest.config.mjs --testMatch \"**/test/**/*.int-spec.ts\" --passWithNoTests",
+    "test:e2e": "jest --config jest.config.mjs --testMatch \"**/test/**/*.e2e-spec.ts\" --passWithNoTests",
+    "test:cov": "jest --config jest.config.mjs --testMatch \"**/test/**/*.spec.ts\" --coverage --passWithNoTests"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
@@ -23,8 +28,12 @@
   "devDependencies": {
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
+    "@repo/jest-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
+    "jest": "^30.0.0",
+    "ts-jest": "^29.3.0",
     "tsc-alias": "^1.8.16",
     "typescript": "^6.0.2"
   }
