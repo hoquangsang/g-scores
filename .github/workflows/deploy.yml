@@ -1,14 +1,6 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows:
-      - CI
-    branches:
-      - develop
-      - main
-    types:
-      - completed
   workflow_dispatch:
     inputs:
       environment:
@@ -27,40 +19,38 @@ on:
       run_migration:
         description: Run Prisma migrations before deployment
         required: true
-        default: true
+        default: false
         type: boolean
       run_seed:
         description: Run database seed before deployment
         required: true
-        default: true
+        default: false
+        type: boolean
+      run_data_import:
+        description: Run score data import before deployment
+        required: true
+        default: false
         type: boolean
       deploy_api:
         description: Trigger Render API deployment
         required: true
-        default: true
+        default: false
         type: boolean
       deploy_web:
         description: Trigger Render Web deployment
         required: true
-        default: true
+        default: false
         type: boolean
 
 concurrency:
-  group: deploy-${{ github.event_name == 'workflow_dispatch' && inputs.environment || github.event.workflow_run.head_branch }}
+  group: deploy-${{ inputs.environment }}
   cancel-in-progress: false
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.event.workflow_run.head_branch == 'main' && 'production' || 'staging') }}
-
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (
-        github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push'
-      )
+    environment: ${{ inputs.environment }}
 
     env:
       NODE_VERSION: ${{ vars.NODE_VERSION || '22' }}
@@ -69,7 +59,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.event.workflow_run.head_sha }}
+          ref: ${{ inputs.ref }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -88,28 +78,40 @@ jobs:
       - name: Build database package
         run: pnpm --filter @repo/database build
 
+      - name: Build data import package
+        if: ${{ inputs.run_data_import }}
+        run: pnpm --filter @repo/data-import build
+
       - name: Deploy database migrations
-        if: ${{ github.event_name == 'workflow_run' || inputs.run_migration }}
+        if: ${{ inputs.run_migration }}
         run: pnpm db:deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed reference data
-        if: ${{ github.event_name == 'workflow_run' || inputs.run_seed }}
+        if: ${{ inputs.run_seed }}
         run: pnpm db:seed
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
+      - name: Import score data
+        if: ${{ inputs.run_data_import }}
+        run: pnpm data:import:scores
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATA_IMPORT_SCORE_CSV_URL: ${{ vars.DATA_IMPORT_SCORE_CSV_URL }}
+
       - name: Trigger API deploy
-        if: ${{ github.event_name == 'workflow_run' || inputs.deploy_api }}
+        if: ${{ inputs.deploy_api }}
         run: curl -fsS -X POST "$RENDER_API_DEPLOY_HOOK_URL"
         env:
           RENDER_API_DEPLOY_HOOK_URL: ${{ secrets.RENDER_API_DEPLOY_HOOK_URL }}
 
       - name: Trigger Web deploy
-        if: ${{ github.event_name == 'workflow_run' || inputs.deploy_web }}
+        if: ${{ inputs.deploy_web }}
         run: curl -fsS -X POST "$RENDER_WEB_DEPLOY_HOOK_URL"
         env:
           RENDER_WEB_DEPLOY_HOOK_URL: ${{ secrets.RENDER_WEB_DEPLOY_HOOK_URL }}

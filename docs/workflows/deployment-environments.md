@@ -1,6 +1,6 @@
 # Deployment Environments
 
-API and Web are deployed with Render Docker services. Database migration and seed are run by GitHub Actions before Render deploy hooks are triggered.
+API and Web are deployed with Render Docker services. Database migration, seed, score import, and Render deploy hooks are controlled manually by GitHub Actions inputs.
 
 Staging and production use the same setup. They differ only by branch, URLs, database credentials, and deploy hook secrets.
 
@@ -24,7 +24,7 @@ Pre-Deploy Command: empty
 Auto-Deploy: Off
 ```
 
-Render deploys are triggered by GitHub Actions through deploy hooks.
+Render deploys are triggered manually by GitHub Actions through deploy hooks.
 
 ## API Service
 
@@ -40,6 +40,7 @@ API_PORT=10000
 API_CORS_ORIGINS=https://<web-url>
 DATABASE_URL=<database-runtime-url>
 DIRECT_URL=<database-direct-url>
+DATA_IMPORT_SCORE_CSV_URL=<public-csv-url>
 ```
 
 ## Web Service
@@ -67,6 +68,8 @@ RENDER_WEB_DEPLOY_HOOK_URL
 ```
 
 Do not store staging secrets in `production` or production secrets in `staging`.
+
+Store `DATA_IMPORT_SCORE_CSV_URL` as an environment var. Use the staging CSV for `staging` and the full CSV for `production`.
 
 ## Verification
 

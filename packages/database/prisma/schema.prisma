@@ -14,33 +14,20 @@ enum ExamTrack {
   UNKNOWN
 }
 
-model Exam {
-  id        String   @id @default(uuid())
-  year      Int      @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  candidates Candidate[]
-}
-
 model Candidate {
   id                 String    @id @default(uuid())
-  examId             String
   registrationNumber String
   examTrack          ExamTrack @default(UNKNOWN)
   foreignLanguageId  String?
 
-  exam            Exam             @relation(fields: [examId], references: [id], onDelete: Cascade)
   foreignLanguage ForeignLanguage? @relation(fields: [foreignLanguageId], references: [id])
   scores          CandidateScore[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([examId, registrationNumber])
-  @@index([examId, examTrack])
-  @@index([registrationNumber])
+  @@unique([registrationNumber])
+  @@index([examTrack])
 }
 
 model Subject {
@@ -50,7 +37,8 @@ model Subject {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  scores CandidateScore[]
+  scores     CandidateScore[]
+  examGroups ExamGroupSubject[]
 }
 
 model CandidateScore {
@@ -73,4 +61,25 @@ model ForeignLanguage {
   updatedAt DateTime @updatedAt
 
   candidates Candidate[]
+}
+
+model ExamGroup {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subjects ExamGroupSubject[]
+}
+
+model ExamGroupSubject {
+  examGroupId String
+  subjectId   String
+
+  examGroup ExamGroup @relation(fields: [examGroupId], references: [id], onDelete: Cascade)
+  subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  @@id([examGroupId, subjectId])
+  @@index([subjectId])
 }

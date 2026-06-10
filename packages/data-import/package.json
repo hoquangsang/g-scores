@@ -1,0 +1,23 @@
+{
+  "name": "@repo/data-import",
+  "version": "0.0.0",
+  "private": true,
+  "description": "G-Scores data import pipeline",
+  "scripts": {
+    "build": "tsc -b --force",
+    "import:scores": "tsx scripts/import-scores.ts",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "dependencies": {
+    "@repo/database": "workspace:*",
+    "dotenv": "^17.4.2",
+    "pg-copy-streams": "^7.0.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^25.6.0",
+    "@types/pg-copy-streams": "^1.2.5",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}
