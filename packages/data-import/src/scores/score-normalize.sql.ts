@@ -69,7 +69,22 @@ async function countRawRows(client: PostgresClient): Promise<number> {
 
 async function insertCandidates(client: PostgresClient): Promise<number> {
   const result = await client.query<{ count: string }>(`
-    WITH inserted AS (
+    WITH classified_raw AS (
+      SELECT
+        raw.*,
+        (
+          (raw.vat_li IS NOT NULL)::int +
+          (raw.hoa_hoc IS NOT NULL)::int +
+          (raw.sinh_hoc IS NOT NULL)::int
+        ) AS natural_subject_count,
+        (
+          (raw.lich_su IS NOT NULL)::int +
+          (raw.dia_li IS NOT NULL)::int +
+          (raw.gdcd IS NOT NULL)::int
+        ) AS social_subject_count
+      FROM raw_candidate_scores raw
+    ),
+    inserted AS (
       INSERT INTO "Candidate" (
         "id",
         "registrationNumber",
@@ -82,16 +97,16 @@ async function insertCandidates(client: PostgresClient): Promise<number> {
         gen_random_uuid()::text,
         raw.sbd,
         CASE
-          WHEN raw.vat_li IS NOT NULL OR raw.hoa_hoc IS NOT NULL OR raw.sinh_hoc IS NOT NULL
+          WHEN raw.natural_subject_count > 0 AND raw.social_subject_count = 0
             THEN 'NATURAL'::"ExamTrack"
-          WHEN raw.lich_su IS NOT NULL OR raw.dia_li IS NOT NULL OR raw.gdcd IS NOT NULL
+          WHEN raw.social_subject_count > 0 AND raw.natural_subject_count = 0
             THEN 'SOCIAL'::"ExamTrack"
           ELSE 'UNKNOWN'::"ExamTrack"
         END,
         foreign_language.id,
         NOW(),
         NOW()
-      FROM raw_candidate_scores raw
+      FROM classified_raw raw
       LEFT JOIN "ForeignLanguage" foreign_language
         ON foreign_language.code = NULLIF(raw.ma_ngoai_ngu, '')
       WHERE raw.sbd IS NOT NULL AND raw.sbd <> ''

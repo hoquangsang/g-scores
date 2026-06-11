@@ -1,0 +1,35 @@
+name: g-scores-test
+
+volumes:
+  postgres_test_data:
+    name: g-scores-test-postgres-data
+
+networks:
+  g_scores_test:
+    name: g-scores-test-net
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_TEST_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_TEST_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_TEST_DB:-g_scores_test}
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_TEST_USER:-postgres} -d ${POSTGRES_TEST_DB:-g_scores_test}',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - '${POSTGRES_TEST_PORT:-5433}:5432'
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - g_scores_test
+    restart: unless-stopped
