@@ -11,6 +11,12 @@ rankings.
 - API: https://g-scores-wzpp.onrender.com
 - Swagger: https://g-scores-wzpp.onrender.com/api/docs
 
+## Demo Dataset Note
+
+The production demo uses a 100k-row sample dataset to stay within the current
+free-tier database limits. The import pipeline supports the original CSV format
+and can be run against the full dataset on a larger PostgreSQL instance.
+
 ## Features
 
 - Import the raw exam score CSV into a relational database.
