@@ -8,18 +8,31 @@
     "dev": "next dev --port 3001",
     "start": "next start --port 3001",
     "lint": "eslint . --cache --cache-location .eslintcache",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "pnpm test:unit",
+    "test:unit": "vitest run --config vitest.unit.config.ts --passWithNoTests",
+    "test:int": "vitest run --config vitest.int.config.ts --passWithNoTests",
+    "test:cov": "vitest run --config vitest.unit.config.ts --coverage --passWithNoTests",
+    "test:cov:int": "vitest run --config vitest.int.config.ts --coverage --passWithNoTests"
   },
   "dependencies": {
+    "@repo/api-client": "workspace:*",
+    "lucide-react": "^1.17.0",
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@repo/vitest-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.3.0",
     "@types/node": "^25.6.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^6.0.2"
+    "@vitest/coverage-v8": "^3.2.6",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.2",
+    "vitest": "^3.2.4"
   }
 }

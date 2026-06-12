@@ -1,0 +1,173 @@
+﻿@media (max-width: 1180px) {
+  .dashboard-shell {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .brand-block,
+  .sidebar-footer {
+    justify-content: center;
+    padding-inline: 18px;
+  }
+
+  .brand-block div,
+  .sidebar-footer div,
+  .side-link span {
+    display: none;
+  }
+
+  .side-link {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-collapse {
+    display: none;
+  }
+
+  .stat-grid,
+  .dashboard-grid,
+  .score-detail-grid,
+  .ranking-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-detail-grid .panel:first-child,
+  .dashboard-grid .panel:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: sticky;
+    z-index: 20;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand-block {
+    justify-content: start;
+    min-height: 68px;
+    padding: 14px 18px;
+  }
+
+  .brand-block div {
+    display: block;
+  }
+
+  .brand-block strong {
+    font-size: 1.2rem;
+  }
+
+  .side-nav {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 14px 14px;
+  }
+
+  .side-link {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .side-link span {
+    display: inline;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-collapse {
+    display: none;
+  }
+
+  .topbar {
+    display: flex;
+    min-height: auto;
+    padding: 12px 18px;
+  }
+
+  .global-search {
+    grid-column: auto;
+    width: min(100%, 420px);
+  }
+
+  .topbar-actions {
+    grid-column: auto;
+  }
+
+  .content-wrap {
+    width: calc(100% - 28px);
+    padding-top: 24px;
+  }
+
+  .page-hero--with-control,
+  .panel-header,
+  .panel-header--inline {
+    display: grid;
+    align-items: start;
+  }
+
+  .select-field select,
+  .readonly-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .stat-grid,
+  .dashboard-grid,
+  .reports-grid,
+  .score-detail-grid,
+  .ranking-grid,
+  .lookup-form,
+  .lookup-form--wide {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header,
+  .subject-overview,
+  .compact-rank-list,
+  .score-list,
+  .fan-chart-wrap,
+  .candidate-profile,
+  .lookup-form {
+    padding-inline: 20px;
+  }
+
+  .rank-card {
+    padding-inline: 20px;
+  }
+
+  .rank-subjects {
+    grid-template-columns: 1fr;
+  }
+
+  .subject-row {
+    grid-template-columns: 1fr;
+  }
+
+  .score-level-row {
+    grid-template-columns: 1fr;
+  }
+
+  .fan-chart-wrap--horizontal {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  th,
+  td {
+    padding-inline: 18px;
+  }
+}
