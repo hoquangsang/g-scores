@@ -4,11 +4,16 @@ import type { UserConfig } from 'vitest/config';
 const coverageExclude = [
   'node_modules/**',
   'dist/**',
+  '.next/**',
   'coverage/**',
   'prisma/**',
+  'test/**',
   '**/generated/**',
+  '**/index.ts',
+  '**/*.repository.ts',
   '**/*.config.*',
   '**/*.d.ts',
+  '**/*.spec.ts',
 ];
 
 export function nodeConfig(overrides: UserConfig = {}): UserConfig {
