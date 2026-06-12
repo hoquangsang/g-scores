@@ -7,9 +7,49 @@ on:
       - main
 
 jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            code:
+              - 'apps/**'
+              - '!apps/**/*.md'
+              - 'packages/**'
+              - '!packages/**/*.md'
+              - 'tooling/**'
+              - '!tooling/**/*.md'
+              - 'infrastructure/**'
+              - '!infrastructure/**/*.md'
+              - '.github/workflows/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - 'tsconfig.json'
+              - 'eslint.config.mjs'
+              - 'commitlint.config.mjs'
+              - 'lefthook.yml'
+              - '.dockerignore'
+              - '.editorconfig'
+              - '.prettierignore'
+              - '.prettierrc.json'
+
   quality:
     name: Quality checks
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
 
     steps:
       - name: Checkout repository
@@ -50,6 +90,8 @@ jobs:
   integration:
     name: Integration checks
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
 
     services:
       postgres:
