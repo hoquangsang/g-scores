@@ -51,6 +51,7 @@ model CandidateScore {
 
   @@id([candidateId, subjectId])
   @@index([subjectId, score])
+  @@index([subjectId, candidateId])
 }
 
 model ForeignLanguage {

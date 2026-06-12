@@ -11,5 +11,6 @@ networks:
 
 include:
   - ./infra/db.yml
+  - ./infra/redis.yml
   - ./services/api.yml
   - ./services/web.yml
