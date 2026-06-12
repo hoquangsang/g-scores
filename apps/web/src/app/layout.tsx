@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { AppSkeleton } from '@/components/app-skeleton';
+
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,8 +16,10 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <AppSkeleton>{children}</AppSkeleton>
+      </body>
     </html>
   );
 }
