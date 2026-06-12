@@ -1,0 +1,727 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "API health status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/HealthResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/v1/catalogs/subjects": {
+      "get": {
+        "operationId": "CatalogsController_getSubjects_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List score subjects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/SubjectResponseDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Catalogs"
+        ]
+      }
+    },
+    "/api/v1/catalogs/exam-groups": {
+      "get": {
+        "operationId": "CatalogsController_getExamGroups_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List exam groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ExamGroupResponseDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Catalogs"
+        ]
+      }
+    },
+    "/api/v1/scores/{registrationNumber}": {
+      "get": {
+        "operationId": "ScoresController_getCandidateScore_v1",
+        "parameters": [
+          {
+            "name": "registrationNumber",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "01000001",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candidate score detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CandidateScoreResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scores"
+        ]
+      }
+    },
+    "/api/v1/reports/summary": {
+      "get": {
+        "operationId": "ReportsController_getReportSummary_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Dataset summary for reports dashboard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReportSummaryResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/score-levels": {
+      "get": {
+        "operationId": "ReportsController_getScoreLevelReports_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Score level reports by all subjects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ScoreLevelReportsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/score-levels/{subjectCode}": {
+      "get": {
+        "operationId": "ReportsController_getScoreLevelReport_v1",
+        "parameters": [
+          {
+            "name": "subjectCode",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "toan",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Score level report by subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ScoreLevelReportResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/score-distribution/{subjectCode}": {
+      "get": {
+        "operationId": "ReportsController_getScoreDistribution_v1",
+        "parameters": [
+          {
+            "name": "subjectCode",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "toan",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Score distribution by subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ScoreDistributionResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/top-groups/{groupCode}": {
+      "get": {
+        "operationId": "ReportsController_getTopGroupReport_v1",
+        "parameters": [
+          {
+            "name": "groupCode",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "A",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Top candidates by exam group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TopGroupReportResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reports"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "G-Scores API",
+    "description": "API documentation for G-Scores",
+    "version": "0.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "components": {
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string",
+            "example": "OK"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-06-11T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "success",
+          "data",
+          "message",
+          "timestamp"
+        ]
+      },
+      "HealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "service": {
+            "type": "string",
+            "example": "g-scores-api"
+          },
+          "uptime": {
+            "type": "number",
+            "example": 12.34
+          }
+        },
+        "required": [
+          "status",
+          "service",
+          "uptime"
+        ]
+      },
+      "SubjectResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "toan"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mathematics"
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "ExamGroupResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "A"
+          },
+          "name": {
+            "type": "string",
+            "example": "Group A"
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubjectResponseDto"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "subjects"
+        ]
+      },
+      "CandidateForeignLanguageResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "N1"
+          },
+          "name": {
+            "type": "string",
+            "example": "English",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "CandidateSubjectScoreResponseDto": {
+        "type": "object",
+        "properties": {
+          "subjectCode": {
+            "type": "string",
+            "example": "toan"
+          },
+          "subjectName": {
+            "type": "string",
+            "example": "Mathematics"
+          },
+          "score": {
+            "type": "number",
+            "example": 8.4
+          }
+        },
+        "required": [
+          "subjectCode",
+          "subjectName",
+          "score"
+        ]
+      },
+      "CandidateScoreResponseDto": {
+        "type": "object",
+        "properties": {
+          "registrationNumber": {
+            "type": "string",
+            "example": "01000001"
+          },
+          "examTrack": {
+            "type": "string",
+            "enum": [
+              "NATURAL",
+              "SOCIAL",
+              "UNKNOWN"
+            ],
+            "example": "NATURAL"
+          },
+          "foreignLanguage": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CandidateForeignLanguageResponseDto"
+              }
+            ]
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CandidateSubjectScoreResponseDto"
+            }
+          }
+        },
+        "required": [
+          "registrationNumber",
+          "examTrack",
+          "foreignLanguage",
+          "scores"
+        ]
+      },
+      "ReportSummaryResponseDto": {
+        "type": "object",
+        "properties": {
+          "subjectCount": {
+            "type": "number",
+            "example": 9
+          },
+          "candidateCount": {
+            "type": "number",
+            "example": 1062801
+          }
+        },
+        "required": [
+          "subjectCount",
+          "candidateCount"
+        ]
+      },
+      "ScoreLevelResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "gte_8"
+          },
+          "label": {
+            "type": "string",
+            "example": ">= 8"
+          },
+          "minScore": {
+            "type": "number",
+            "example": 8,
+            "nullable": true
+          },
+          "maxScore": {
+            "type": "number",
+            "example": null,
+            "nullable": true
+          },
+          "count": {
+            "type": "number",
+            "example": 1250
+          }
+        },
+        "required": [
+          "code",
+          "label",
+          "minScore",
+          "maxScore",
+          "count"
+        ]
+      },
+      "ScoreLevelReportResponseDto": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "$ref": "#/components/schemas/SubjectResponseDto"
+          },
+          "levels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreLevelResponseDto"
+            }
+          }
+        },
+        "required": [
+          "subject",
+          "levels"
+        ]
+      },
+      "ScoreLevelReportsResponseDto": {
+        "type": "object",
+        "properties": {
+          "reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreLevelReportResponseDto"
+            }
+          }
+        },
+        "required": [
+          "reports"
+        ]
+      },
+      "ScoreDistributionItemResponseDto": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "example": 8.2
+          },
+          "count": {
+            "type": "number",
+            "example": 125
+          }
+        },
+        "required": [
+          "score",
+          "count"
+        ]
+      },
+      "ScoreDistributionResponseDto": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "$ref": "#/components/schemas/SubjectResponseDto"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreDistributionItemResponseDto"
+            }
+          }
+        },
+        "required": [
+          "subject",
+          "items"
+        ]
+      },
+      "TopGroupCandidateScoreResponseDto": {
+        "type": "object",
+        "properties": {
+          "subjectCode": {
+            "type": "string",
+            "example": "toan"
+          },
+          "subjectName": {
+            "type": "string",
+            "example": "Mathematics"
+          },
+          "score": {
+            "type": "number",
+            "example": 9.4
+          }
+        },
+        "required": [
+          "subjectCode",
+          "subjectName",
+          "score"
+        ]
+      },
+      "TopGroupCandidateResponseDto": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "number",
+            "example": 1
+          },
+          "registrationNumber": {
+            "type": "string",
+            "example": "01000001"
+          },
+          "examTrack": {
+            "type": "string",
+            "enum": [
+              "NATURAL",
+              "SOCIAL",
+              "UNKNOWN"
+            ],
+            "example": "NATURAL"
+          },
+          "totalScore": {
+            "type": "number",
+            "example": 28.4
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopGroupCandidateScoreResponseDto"
+            }
+          }
+        },
+        "required": [
+          "rank",
+          "registrationNumber",
+          "examTrack",
+          "totalScore",
+          "scores"
+        ]
+      },
+      "TopGroupReportResponseDto": {
+        "type": "object",
+        "properties": {
+          "group": {
+            "$ref": "#/components/schemas/ExamGroupResponseDto"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopGroupCandidateResponseDto"
+            }
+          }
+        },
+        "required": [
+          "group",
+          "items"
+        ]
+      }
+    }
+  }
+}
