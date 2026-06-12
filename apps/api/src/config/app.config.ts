@@ -16,7 +16,11 @@ function parseCorsOrigins(): boolean | string[] {
 export const appConfig = Object.freeze({
   nodeEnv: env.NODE_ENV,
   port: env.API_PORT,
+  apiPrefix: env.API_PREFIX,
+  apiVersion: env.API_VERSION,
   corsOrigins: parseCorsOrigins(),
+  enableSwagger: env.API_ENABLE_SWAGGER,
+  version: '0.0.0',
 });
 
 export type AppConfig = typeof appConfig;
