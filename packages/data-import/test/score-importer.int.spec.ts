@@ -10,6 +10,8 @@ describe('score import integration', () => {
   let client: PostgresClient;
 
   beforeAll(async () => {
+    assertTestDatabaseUrl();
+
     client = createPostgresClient({
       url: resolveDatabaseUrl({
         errorMessage: 'DATABASE_URL or DIRECT_URL is required for score import integration tests',
@@ -44,6 +46,14 @@ describe('score import integration', () => {
       SOCIAL: 1,
       UNKNOWN: 3,
     });
+    await expectCandidateTrack('01000001', 'NATURAL');
+    await expectCandidateTrack('01000002', 'SOCIAL');
+    await expectCandidateTrack('01000006', 'UNKNOWN');
+    await expectCandidateTrack('01000007', 'UNKNOWN');
+    await expectCandidateTrack('01000008', 'UNKNOWN');
+    await expectCandidateHasScore('01000004', 'toan', false);
+    await expectCandidateHasScore('01000005', 'hoa_hoc', false);
+    await expectCandidateHasScore('01000005', 'sinh_hoc', true);
   });
 
   it('can be rerun without duplicating normalized data', async () => {
@@ -81,6 +91,8 @@ describe('score import integration', () => {
     await expectTableCount('raw_candidate_scores', 0);
     await expectTableCount('"Candidate"', 8);
     await expectTableCount('"CandidateScore"', 37);
+    await expectCandidateTrack('01000001', 'NATURAL');
+    await expectCandidateHasScore('01000005', 'hoa_hoc', false);
   });
 
   async function expectTableCount(tableName: string, expected: number): Promise<void> {
@@ -102,4 +114,48 @@ describe('score import integration', () => {
 
     expect(actual).toEqual(expected);
   }
+
+  async function expectCandidateTrack(
+    registrationNumber: string,
+    expectedTrack: string,
+  ): Promise<void> {
+    const result = await client.query<{ examTrack: string }>(
+      'SELECT "examTrack" FROM "Candidate" WHERE "registrationNumber" = $1',
+      [registrationNumber],
+    );
+
+    expect(result.rows[0]?.examTrack).toBe(expectedTrack);
+  }
+
+  async function expectCandidateHasScore(
+    registrationNumber: string,
+    subjectCode: string,
+    expected: boolean,
+  ): Promise<void> {
+    const result = await client.query<{ count: string }>(
+      `
+        SELECT COUNT(*) AS count
+        FROM "CandidateScore" score
+        INNER JOIN "Candidate" candidate
+          ON candidate.id = score."candidateId"
+        INNER JOIN "Subject" subject
+          ON subject.id = score."subjectId"
+        WHERE candidate."registrationNumber" = $1
+          AND subject.code = $2
+      `,
+      [registrationNumber, subjectCode],
+    );
+
+    expect(Number(result.rows[0]?.count ?? 0) > 0).toBe(expected);
+  }
 });
+
+function assertTestDatabaseUrl(): void {
+  const databaseUrl = resolveDatabaseUrl({
+    errorMessage: 'DATABASE_URL or DIRECT_URL is required for score import integration tests',
+  });
+
+  if (!databaseUrl.includes('g_scores_test') && !databaseUrl.includes(':5433/')) {
+    throw new Error('Refusing to run score import integration tests outside the test database');
+  }
+}

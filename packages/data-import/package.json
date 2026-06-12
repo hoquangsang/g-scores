@@ -8,9 +8,10 @@
     "import:scores": "tsx scripts/import-scores.ts",
     "typecheck": "tsc -b --noEmit",
     "test": "pnpm test:unit",
-    "test:unit": "vitest run --exclude \"test/**/*.int.spec.ts\" --passWithNoTests",
-    "test:int": "vitest run --exclude \"test/**/*.unit.spec.ts\" --passWithNoTests",
-    "test:cov": "vitest run --exclude \"test/**/*.int.spec.ts\" --coverage --passWithNoTests"
+    "test:unit": "vitest run --config vitest.unit.config.ts --passWithNoTests",
+    "test:int": "dotenv -e ../../.env.test -- vitest run --config vitest.int.config.ts --passWithNoTests",
+    "test:cov": "vitest run --config vitest.unit.config.ts --coverage --passWithNoTests",
+    "test:cov:int": "dotenv -e ../../.env.test -- vitest run --config vitest.int.config.ts --coverage --passWithNoTests"
   },
   "dependencies": {
     "@repo/database": "workspace:*",
