@@ -10,10 +10,10 @@
     "start": "node dist/main.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm test:unit",
-    "test:unit": "jest --config jest.config.mjs --testMatch \"**/test/**/*.unit.spec.ts\" --passWithNoTests",
+    "test:unit": "dotenv -e ../../.env.test -- jest --config jest.config.mjs --testMatch \"**/test/**/*.unit.spec.ts\" --passWithNoTests",
     "test:int": "dotenv -e ../../.env.test -- node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.mjs --testMatch \"**/test/**/*.int-spec.ts\" --runInBand --testTimeout 30000 --passWithNoTests",
     "test:e2e": "dotenv -e ../../.env.test -- jest --config jest.config.mjs --testMatch \"**/test/**/*.e2e-spec.ts\" --passWithNoTests",
-    "test:cov": "jest --config jest.config.mjs --testMatch \"**/test/**/*.unit.spec.ts\" --coverage --passWithNoTests",
+    "test:cov": "dotenv -e ../../.env.test -- jest --config jest.config.mjs --testMatch \"**/test/**/*.unit.spec.ts\" --coverage --passWithNoTests",
     "test:cov:int": "dotenv -e ../../.env.test -- node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.mjs --testMatch \"**/test/**/*.int-spec.ts\" --runInBand --testTimeout 30000 --coverage --passWithNoTests",
     "openapi:generate": "nest build && tsc-alias -p tsconfig.build.json && tsx scripts/generate-openapi.ts"
   },
