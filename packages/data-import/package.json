@@ -1,0 +1,31 @@
+{
+  "name": "@repo/data-import",
+  "version": "0.0.0",
+  "private": true,
+  "description": "G-Scores data import pipeline",
+  "scripts": {
+    "build": "tsc -b --force",
+    "import:scores": "tsx scripts/import-scores.ts",
+    "typecheck": "tsc -b --noEmit",
+    "test": "pnpm test:unit",
+    "test:unit": "vitest run --config vitest.unit.config.ts --passWithNoTests",
+    "test:int": "dotenv -e ../../.env.test -- vitest run --config vitest.int.config.ts --passWithNoTests",
+    "test:cov": "vitest run --config vitest.unit.config.ts --coverage --passWithNoTests",
+    "test:cov:int": "dotenv -e ../../.env.test -- vitest run --config vitest.int.config.ts --coverage --passWithNoTests"
+  },
+  "dependencies": {
+    "@repo/database": "workspace:*",
+    "dotenv": "^17.4.2",
+    "pg-copy-streams": "^7.0.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@repo/vitest-config": "workspace:*",
+    "@types/node": "^25.6.0",
+    "@types/pg-copy-streams": "^1.2.5",
+    "@vitest/coverage-v8": "^3.2.4",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "vitest": "^3.2.4"
+  }
+}

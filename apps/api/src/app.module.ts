@@ -1,11 +1,22 @@
 import { Module } from '@nestjs/common';
 
+import { ApiCacheModule } from './common/cache';
 import { ConfigModule } from './config';
 import { DatabaseModule } from './database';
-import { HealthController } from './health/health.controller';
+import { CatalogsModule } from './modules/catalogs';
+import { HealthModule } from './modules/health';
+import { ReportsModule } from './modules/reports';
+import { ScoresModule } from './modules/scores';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule],
-  controllers: [HealthController],
+  imports: [
+    ConfigModule,
+    ApiCacheModule,
+    DatabaseModule,
+    HealthModule,
+    CatalogsModule,
+    ScoresModule,
+    ReportsModule,
+  ],
 })
 export class AppModule {}

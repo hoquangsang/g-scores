@@ -1,6 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV",
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "DATA_IMPORT_SCORE_CSV_URL",
+    "API_CACHE_DRIVER",
+    "API_CACHE_TTL_SECONDS",
+    "REDIS_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -15,6 +24,34 @@
     },
     "typecheck": {
       "dependsOn": ["build", "^build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:unit": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:int": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "outputs": []
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "outputs": []
+    },
+    "test:cov": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "outputs": []
+    },
+    "test:cov:int": {
+      "dependsOn": ["^build"],
+      "cache": false,
       "outputs": []
     },
     "format": {

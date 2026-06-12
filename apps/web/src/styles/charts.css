@@ -1,0 +1,323 @@
+﻿.bar-chart-wrap {
+  overflow-x: auto;
+  padding: 24px 26px 30px;
+}
+
+.bar-chart-wrap svg {
+  display: block;
+  width: max(100%, 1020px);
+  height: auto;
+}
+
+.chart-grid-line {
+  stroke: var(--border);
+  stroke-dasharray: none;
+}
+
+.chart-axis-label {
+  fill: var(--text-muted);
+  font-size: 11px;
+}
+
+.chart-axis-label--large {
+  font-size: 15px;
+}
+
+.chart-axis-title {
+  fill: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart-axis-title--large {
+  font-size: 15px;
+}
+
+.chart-axis-title--vertical {
+  font-size: 16px;
+}
+
+.chart-axis-tick {
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.chart-axis-tick--minor {
+  stroke: color-mix(in srgb, var(--text-muted) 62%, transparent);
+  stroke-width: 1.25;
+}
+
+.chart-bar {
+  fill: var(--chart-line);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: barGrow 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bar-group--delay-1 .chart-bar {
+  animation-delay: 10ms;
+}
+
+.bar-group--delay-2 .chart-bar {
+  animation-delay: 20ms;
+}
+
+.bar-group--delay-3 .chart-bar {
+  animation-delay: 30ms;
+}
+
+.bar-group--delay-4 .chart-bar {
+  animation-delay: 40ms;
+}
+
+.bar-group--delay-5 .chart-bar {
+  animation-delay: 50ms;
+}
+
+.bar-group--delay-6 .chart-bar {
+  animation-delay: 60ms;
+}
+
+.bar-group--delay-7 .chart-bar {
+  animation-delay: 70ms;
+}
+
+.bar-group--delay-8 .chart-bar {
+  animation-delay: 80ms;
+}
+
+.bar-group--delay-9 .chart-bar {
+  animation-delay: 90ms;
+}
+
+.bar-group--delay-10 .chart-bar {
+  animation-delay: 100ms;
+}
+
+.bar-group--delay-11 .chart-bar {
+  animation-delay: 110ms;
+}
+
+.chart-bar:hover {
+  fill: color-mix(in srgb, var(--chart-line) 82%, var(--text));
+}
+
+.bar-value-label {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 760;
+  opacity: 0.9;
+}
+
+.fan-chart-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  padding: 24px 26px 26px;
+}
+
+.fan-chart-wrap--balanced {
+  align-content: start;
+}
+
+.fan-chart-wrap--horizontal {
+  grid-template-columns: minmax(210px, 0.34fr) minmax(320px, 1fr);
+  align-items: center;
+  justify-items: center;
+  min-height: 250px;
+}
+
+.fan-chart {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 206px;
+  height: 206px;
+  border-radius: 50%;
+  animation: donutSpinIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.fan-chart svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.fan-track,
+.fan-segment {
+  fill: none;
+}
+
+.fan-track {
+  stroke: var(--surface-strong);
+  stroke-width: 46;
+}
+
+.fan-segment {
+  stroke: var(--fan-color);
+  stroke-width: 42;
+  stroke-linecap: butt;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    filter 160ms ease,
+    stroke-width 160ms ease,
+    transform 160ms ease;
+}
+
+.fan-segment:hover {
+  filter: drop-shadow(0 10px 12px rgba(37, 99, 235, 0.22));
+  stroke-width: 48;
+  transform: scale(1.035);
+}
+
+.fan-chart span {
+  position: relative;
+  z-index: 1;
+  font-size: 1.42rem;
+  font-weight: 900;
+}
+
+.fan-legend {
+  width: 100%;
+  padding: 0;
+}
+
+.fan-legend div {
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  min-height: 44px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--border);
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.fan-legend div:hover {
+  transform: translateX(4px);
+}
+
+.fan-legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.fan-legend small {
+  grid-column: 3;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+  opacity: 0;
+  text-align: right;
+  transition: opacity 160ms ease;
+}
+
+.fan-legend div:hover small {
+  opacity: 1;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px 26px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  color: var(--text-muted);
+  background: var(--surface-soft);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 142px;
+  padding: 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state strong {
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.empty-state span {
+  max-width: 320px;
+}
+
+.skeleton,
+.chart-skeleton {
+  border-radius: var(--radius);
+  background: linear-gradient(
+    90deg,
+    var(--surface-soft),
+    color-mix(in srgb, var(--surface-soft) 70%, var(--text) 8%),
+    var(--surface-soft)
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.3s infinite linear;
+}
+
+.skeleton {
+  min-height: 220px;
+}
+
+.skeleton--compact {
+  min-height: 48px;
+}
+
+.chart-skeleton {
+  height: 320px;
+  margin: 26px;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes donutSpinIn {
+  from {
+    opacity: 0;
+    transform: rotate(-32deg) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes barGrow {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

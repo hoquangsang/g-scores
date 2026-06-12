@@ -9,14 +9,18 @@ WORKDIR /app
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/web/package.json apps/web/package.json
+COPY packages/api-client/package.json packages/api-client/package.json
 COPY tooling/typescript-config/package.json tooling/typescript-config/package.json
 COPY tooling/eslint-config/package.json tooling/eslint-config/package.json
+COPY tooling/vitest-config/package.json tooling/vitest-config/package.json
 RUN pnpm install --frozen-lockfile --filter @repo/web... --ignore-scripts
 
 FROM deps AS builder
 ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 COPY . .
+RUN pnpm --filter @repo/vitest-config build
+RUN pnpm --filter @repo/api-client build
 RUN pnpm --filter @repo/web build
 
 FROM node:22-alpine AS runner
